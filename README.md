@@ -12,16 +12,28 @@ npm install --save @dioklecijan/use-async
 
 ## Usage
 
+See `example/src/App.js` for more complete example:
+
 ```tsx
 import * as React from 'react'
+import { useAsync } from '@dioklecijan/use-async'
 
-import { useMyHook } from '@dioklecijan/use-async'
+const getCurrentRate = async (base:string) => {
+  const url = `https://api.ratesapi.io/api/latest?base=${base}`;
+  const res = await fetch(url);
+  return res.json();
+}
 
 const Example = () => {
-  const example = useMyHook()
+  const fx = useAsync(getCurrentRate, true, "EUR", "GBP,USD");
   return (
     <div>
-      {example}
+    <div>
+      <h1>European Central Bank exchange rates</h1>
+      <button onClick={() => fx.execute("EUR")}>Get all rates</button>
+      {fx.state.error && <div>Error: {fx.state.error.message}</div>}
+      {fx.state.pending && <div>Fetching rates...</div>}
+      {fx.state.value && <pre>{JSON.stringify(fx.state.value, null, 2)}</pre>}
     </div>
   )
 }

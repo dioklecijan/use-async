@@ -1,6 +1,6 @@
 {
   "name": "@dioklecijan/use-async",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "a React hook for executing async functions",
   "author": "dioklecijan",
   "license": "MIT",
